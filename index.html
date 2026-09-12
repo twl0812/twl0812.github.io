@@ -370,6 +370,21 @@
     font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;
     text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:8px;
   }
+
+  /* ---- print / PDF export ---- */
+  @media print{
+    nav.index{display:none;}
+    body{background:#fff;color:#111;padding-inline:0;font-size:11pt;}
+    .wrap{max-width:100%;}
+    header.id{min-height:auto;padding-block:0 24px;display:block;}
+    section{padding-block:18px;}
+    a{color:#111;text-decoration:underline;}
+    .card,.proj-card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}
+    .tech-box,.decision,.trace{background:#f4f4f4;}
+    details.more > summary{display:none;}
+    details.block summary::after{display:none;}
+    details.block summary{cursor:default;}
+  }
 </style>
 </head>
 <body>
@@ -681,5 +696,23 @@
   </footer>
 
 </div>
+
+<script>
+  // Print-only: expand every collapsed <details> so PDF export includes all content,
+  // then restore whatever the viewer had open before printing.
+  (function(){
+    var restore = [];
+    window.addEventListener('beforeprint', function(){
+      restore = [];
+      document.querySelectorAll('details').forEach(function(d){
+        restore.push([d, d.open]);
+        d.open = true;
+      });
+    });
+    window.addEventListener('afterprint', function(){
+      restore.forEach(function(pair){ pair[0].open = pair[1]; });
+    });
+  })();
+</script>
 </body>
 </html>
