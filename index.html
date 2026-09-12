@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이태우 — AI Agent Developer Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#E7F2FB;
+    --surface:#FFFFFF;
+    --surface-tint:#F1F8FE;
+    --ink:#12151A;
+    --ink-muted:#545C66;
+    --ink-faint:#868D96;
+    --accent:#2E8FD1;
+    --accent-strong:#1C6FA8;
+    --signal:#B5651D;
+    --ok:#3F6B4A;
+    --line:#C7DCEC;
+    --line-strong:#A9C7DE;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D1620;
+      --surface:#152230;
+      --surface-tint:#122A38;
+      --ink:#E7EEF4;
+      --ink-muted:#9FB0BF;
+      --ink-faint:#6E7F8C;
+      --accent:#6FC2F2;
+      --accent-strong:#8FD3F7;
+      --signal:#E0973F;
+      --ok:#6FA37B;
+      --line:#22384A;
+      --line-strong:#2E4A5F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1620;
+    --surface:#152230;
+    --surface-tint:#122A38;
+    --ink:#E7EEF4;
+    --ink-muted:#9FB0BF;
+    --ink-faint:#6E7F8C;
+    --accent:#6FC2F2;
+    --accent-strong:#8FD3F7;
+    --signal:#E0973F;
+    --ok:#6FA37B;
+    --line:#22384A;
+    --line-strong:#2E4A5F;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans KR","IBM Plex Sans",-apple-system,sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    padding-inline:20px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-strong);text-underline-offset:2px;}
+  a:hover{color:var(--accent);}
+
+  .wrap{max-width:800px;margin:0 auto;}
+
+  /* ---- top index nav ---- */
+  nav.index{
+    position:sticky;top:0;z-index:5;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    margin-inline:-20px;
+    padding-inline:20px;
+  }
+  nav.index .row{
+    max-width:800px;margin:0 auto;
+    display:flex;gap:18px;
+    overflow-x:auto;
+    padding-block:12px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    scrollbar-width:thin;
+  }
+  nav.index a{color:var(--ink-muted);text-decoration:none;}
+  nav.index a:hover{color:var(--accent-strong);}
+
+  /* ---- header / identity ---- */
+  header.id{
+    padding-block:56px 36px;
+    scroll-snap-align:start;scroll-margin-top:56px;
+    min-height:100vh;box-sizing:border-box;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  header.id .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:10px;
+  }
+  header.id h1{
+    font-weight:700;
+    letter-spacing:-.01em;
+    font-size:clamp(2rem,5vw,2.6rem);
+    margin:0 0 18px;
+    text-wrap:balance;
+  }
+  blockquote.thesis{
+    margin:0 0 20px;
+    padding-left:16px;
+    border-left:3px solid var(--accent);
+    font-size:1.18rem;
+    font-weight:600;
+    line-height:1.55;
+    color:var(--ink);
+    max-width:58ch;
+  }
+  ul.about{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:7px;}
+  ul.about li{font-size:.96rem;color:var(--ink-muted);}
+  ul.about li b{color:var(--ink);font-weight:600;}
+  ul.about li a{color:var(--accent-strong);}
+
+  .meta-row{
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;color:var(--ink-muted);
+    padding-top:12px;
+  }
+  .meta-row:first-of-type{padding-top:20px;border-top:1px solid var(--line);}
+  .meta-row .meta-label{
+    color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;
+    font-size:11px;min-width:78px;
+  }
+  .meta-row a{color:var(--ink-muted);}
+  .meta-row a:hover{color:var(--accent-strong);}
+
+  section{
+    padding-block:32px;border-top:1px solid var(--line);
+  }
+  section:first-of-type{border-top:none;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px 34px;
+    box-shadow:0 1px 2px rgba(15,45,70,.06), 0 18px 34px -22px rgba(15,60,100,.30);
+    box-sizing:border-box;
+  }
+  .card + .card{margin-top:26px;}
+  @media (max-width:600px){
+    .card{padding:22px 18px;border-radius:12px;}
+  }
+
+  h2.section-title{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:15px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent-strong);
+    margin:0 0 28px;
+  }
+  h2.section-title span.n{color:var(--ink-faint);margin-right:8px;}
+
+  h3.entry-title{
+    font-weight:700;font-size:1.28rem;letter-spacing:-.005em;margin:0 0 6px;
+  }
+  p.entry-sub{margin:0 0 18px;color:var(--ink-muted);font-size:.96rem;}
+
+  .stamps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .stamp{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;letter-spacing:.03em;text-transform:uppercase;
+    padding:5px 10px;border:1px solid var(--line-strong);border-radius:3px;
+    color:var(--ink-muted);
+  }
+  .stamp.live{border-color:var(--ok);color:var(--ok);}
+  .stamp.progress{border-color:var(--signal);color:var(--signal);}
+
+  /* ---- Work: card grid ---- */
+  .work-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+
+  .poc-sub{padding-block:18px;}
+  .poc-sub:first-of-type{padding-top:4px;}
+  .poc-sub-title{font-size:1rem;font-weight:700;margin:10px 0 12px;line-height:1.5;}
+  .poc-sub .more{margin-top:16px;}
+  .more-body .proj-rule{margin:0 0 4px;}
+  .proj-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px 26px 22px;
+    box-shadow:0 1px 2px rgba(15,45,70,.05), 0 14px 28px -18px rgba(15,60,100,.28);
+    display:flex;flex-direction:column;
+  }
+  .proj-head{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+  .pill{
+    font-size:.82rem;font-weight:600;
+    padding:6px 14px;border-radius:20px;color:var(--bg);
+  }
+  .pill-main{background:var(--accent-strong);}
+  .pill-internal{background:var(--ink-muted);}
+  .pill-poc{background:var(--signal);}
+  .proj-date{font-size:.82rem;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;}
+  .proj-rule{border:none;border-top:1px solid var(--line);margin:16px 0;}
+  .proj-hook{
+    font-size:1.05rem;font-weight:700;line-height:1.5;
+    margin:0 0 14px;text-wrap:balance;
+  }
+  .proj-bullets{list-style:none;margin:0 0 16px;padding:0;}
+  .proj-bullets li{
+    position:relative;padding-left:16px;margin-bottom:6px;
+    font-size:.93rem;color:var(--ink-muted);
+  }
+  .proj-bullets li::before{content:"•";position:absolute;left:0;color:var(--accent-strong);}
+  .tech-box{
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:10px 14px;margin-bottom:18px;
+    font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--ink-muted);
+    line-height:1.6;
+  }
+
+  details.more{margin-top:auto;}
+  details.more summary{
+    cursor:pointer;list-style:none;
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.88rem;font-weight:600;color:var(--accent-strong);
+    border:1px solid var(--line-strong);border-radius:20px;
+    padding:8px 16px;
+    transition:background .15s ease;
+  }
+  details.more summary::-webkit-details-marker{display:none;}
+  details.more summary:hover{background:var(--bg);}
+  details.more > summary .more-icon{font-size:.75em;transition:transform .15s ease;}
+  details.more[open] > summary .more-icon{transform:rotate(90deg);}
+  details.more[open] > summary{margin-bottom:18px;background:var(--bg);}
+  details.more > summary .lbl-open{display:none;}
+  details.more[open] > summary .lbl-closed{display:none;}
+  details.more[open] > summary .lbl-open{display:inline;}
+  .more-body{border-top:1px solid var(--line);padding-top:6px;}
+  .mb-block{margin-block:20px;}
+  .mb-block:first-child{margin-top:0;}
+  .mb-block h4{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0 0 10px;
+  }
+  .mb-block p{margin:0 0 10px;font-size:.95rem;}
+
+  .stack-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .stack-tags .tag{
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;
+    background:var(--bg);color:var(--ink);border-color:var(--line);
+    border:1px solid var(--line);
+    padding:6px 12px;border-radius:4px;
+  }
+
+  /* ---- body content blocks within a project ---- */
+  .block{margin-block:28px;}
+  .block > p:first-child{margin-top:0;}
+  .block p{margin:0 0 10px;font-size:.97rem;}
+
+  /* toggleable sub-sections */
+  details.block{margin-block:0;border-bottom:1px solid var(--line);}
+  details.block:last-of-type{border-bottom:none;}
+  details.block > *:not(summary){margin-top:2px;}
+  details.block[open]{padding-bottom:20px;}
+  details.block summary{
+    cursor:pointer;list-style:none;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-faint);
+    padding-block:16px;
+  }
+  details.block summary::-webkit-details-marker{display:none;}
+  details.block summary::after{
+    content:"+";font-family:"IBM Plex Mono",monospace;
+    color:var(--accent-strong);font-size:16px;flex:none;
+  }
+  details.block[open] summary::after{content:"–";}
+  details.block[open] summary{color:var(--accent-strong);}
+  details.block summary:hover{color:var(--accent-strong);}
+  ul.plain{margin:0;padding-left:0;list-style:none;}
+  ul.plain li{
+    position:relative;padding-left:16px;margin-bottom:9px;font-size:.98rem;color:var(--ink);
+  }
+  ul.plain li::before{content:"—";position:absolute;left:0;color:var(--ink-faint);}
+  ol.flow{margin:0;padding-left:22px;}
+  ol.flow li{margin-bottom:9px;font-size:.95rem;}
+  ol.flow li::marker{font-family:"IBM Plex Mono",monospace;color:var(--accent-strong);font-size:.85em;}
+
+  .decision{
+    border-left:3px solid var(--accent);
+    background:var(--bg);
+    padding:20px 22px;border-radius:0 4px 4px 0;
+  }
+  .decision ul.plain li::before{color:var(--accent-strong);content:"→";}
+
+  .trace{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--bg);}
+  .trace-step{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 20px;}
+  .trace-step + .trace-step{border-top:1px solid var(--line);}
+  .trace-step .lbl{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.04em;
+    text-transform:uppercase;padding-top:2px;
+  }
+  .trace-step.problem .lbl{color:var(--signal);}
+  .trace-step.attempt .lbl{color:var(--ink-faint);}
+  .trace-step.resolve .lbl{color:var(--ok);}
+  .trace-step p{margin:0;font-size:.93rem;}
+  @media (max-width:480px){
+    .trace-step{grid-template-columns:1fr;gap:4px;}
+  }
+
+  .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  @media (max-width:480px){.status-grid{grid-template-columns:1fr;}}
+  .status-col .lbl{
+    display:flex;align-items:center;gap:7px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;
+    text-transform:uppercase;margin-bottom:9px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+  .dot.ok{background:var(--ok);}
+  .dot.progress{background:var(--signal);}
+  .status-col.done .lbl{color:var(--ok);}
+  .status-col.wip .lbl{color:var(--signal);}
+  .status-col ul.plain{}
+
+  .contribution{
+    border:1px dashed var(--line-strong);border-radius:4px;padding:14px 16px;margin-block:18px;
+  }
+  .contribution .k{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--accent-strong);margin-bottom:8px;display:block;
+  }
+
+  /* ---- earlier work / publications / education ---- */
+  ul.earlier{list-style:none;margin:0;padding:0;}
+  ul.earlier li{padding-block:12px;border-bottom:1px solid var(--line);font-size:.95rem;}
+  ul.earlier li:last-child{border-bottom:none;}
+  ul.earlier li b{font-weight:700;}
+
+  ul.pubs{list-style:none;margin:0;padding:0;}
+  ul.pubs li{
+    padding-block:20px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap;
+  }
+  ul.pubs li:last-child{border-bottom:none;}
+  ul.pubs .cite{font-weight:600;font-size:.98rem;max-width:52ch;}
+  ul.pubs .venue{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);white-space:nowrap;}
+  ul.pubs a{font-family:"IBM Plex Mono",monospace;font-size:12px;}
+
+  footer.disclosure{
+    padding-block:30px 50px;
+    font-size:.85rem;color:var(--ink-faint);
+    border-top:1px solid var(--line);
+    max-width:62ch;
+  }
+  footer.disclosure .k{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:8px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="index">
+  <div class="row">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#earlier">Earlier Work</a>
+    <a href="#publications">Publications</a>
+    <a href="#education">Education</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="id" id="about">
+    <div class="eyebrow">Agent Developer</div>
+    <h1>이태우</h1>
+    <blockquote class="thesis">
+      금융·보험 AX 프로젝트에서 LLM Agent의 실행 흐름, 상태 관리, 데이터 연계 문제를 직접 다루며 Agent 개발 경험을 쌓고 있습니다.
+    </blockquote>
+    <ul class="about">
+      <li>Google ADK, MCP/Tool integration, session-state 관리</li>
+      <li>금융권 폐쇄망 환경에서 Qwen/vLLM 기반 Agent 개발</li>
+      <li>학부 연구생 시절 제1저자 논문 4편 게재 — <a href="#publications">Publications 참고</a></li>
+    </ul>
+    <div class="meta-row">
+      <span class="meta-label">Experience</span>
+      <span>AITSTORY AX기술연구소 · 2026.03 ~ 현재</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Contact</span>
+      <a href="tel:01066090643">010-6609-0643</a>
+      <a href="mailto:twl0812@naver.com">twl0812@naver.com</a>
+      <a href="https://github.com/twl0812" target="_blank" rel="noopener">github.com/twl0812</a>
+    </div>
+  </header>
+
+  <section id="work">
+    <h2 class="section-title"><span class="n">01</span>Work</h2>
+
+    <div class="work-grid">
+
+      <div class="proj-card">
+        <div class="proj-head">
+          <span class="pill pill-main">실무 프로젝트</span>
+          <span class="proj-date">2026.06 ~ 진행 중 · 팀 프로젝트</span>
+        </div>
+        <hr class="proj-rule">
+        <h3 class="proj-hook">기업 여신(Corporate Lending) AI 에이전트 — OCR 이후 심사·검증·승인 흐름에서 판단을 수행하는 정책 Agent 개발</h3>
+        <ul class="proj-bullets">
+          <li>여신 업무 화면 33개 분석 → Agent 개입 지점 정의</li>
+          <li>시스템 연계 전, Tibero 원천 데이터를 직접 조인해 mock dataset을 구성한 뒤 개발</li>
+          <li>일부 실행 구간에 LLM 대신 Deterministic Routing 적용</li>
+        </ul>
+        <div class="tech-box">Python, Google ADK, Qwen 3.x/vLLM, MCP, Session/Event/State, Tibero, Closed Network</div>
+        <details class="more">
+          <summary><span class="more-icon">▸</span> <span class="lbl-closed">자세히 보기</span><span class="lbl-open">접기</span></summary>
+          <div class="more-body">
+            <div class="mb-block">
+              <h4>Overview</h4>
+              <p>기업여신 업무 프로세스에 Agent를 투입하는 상용 구축 프로젝트입니다. 저는 OCR 이후 심사·검증·승인 업무 흐름에서 판단을 수행하는 <b>정책 Agent 개발</b>을 담당하고 있습니다. OCR·RPA·Bridge·EAI·코어뱅킹 연계는 각각 별도 담당 팀이 있으며, 현재 모든 시스템이 완전히 연계된 상태는 아닙니다.</p>
+            </div>
+            <div class="mb-block">
+              <h4>My Scope — 정책 Agent 개발 파트</h4>
+              <p class="entry-sub" style="margin-top:0;">RAG · 백엔드 · 프론트엔드 · 대응(dialogue) 개발, 그리고 OCR·RPA·Bridge·EAI 연계는 별도 파트/팀 담당</p>
+              <ul class="plain">
+                <li>현업 요구사항 및 여신 업무 화면(33개) 분석 → Agent 개입 지점 정의</li>
+                <li>OCR 문서 유형(약 25종) → 후속 심사·검증·승인 workflow 매핑</li>
+                <li>상담번호·승인신청번호 등 업무 키 기준 데이터·상태 연결 검토</li>
+                <li>ADK event/state를 활용한 담당 Agent 실행 구간 구현</li>
+              </ul>
+            </div>
+            <div class="mb-block">
+              <h4>Development under Integration Constraints</h4>
+              <p>실제 개발 과정에서는 필요한 시스템 연계가 아직 열리지 않은 구간이 많았습니다. 이 문제를 아래 흐름으로 해결하며 진행했습니다.</p>
+              <ol class="flow">
+                <li>정책 Agent 판단에 필요한 데이터 항목 정의</li>
+                <li>계정계/ADW 원천 데이터 중 부족한 항목은 데이터 담당자에게 직접 문의·제공 요청</li>
+                <li>데이터 담당자가 Tibero에 제공한 데이터를 확보 — 금리 원장, 평가지표 등 관련 테이블을 최대 5개까지 직접 조인해 개발용 mock dataset 구성 (실제 원천 데이터 기반, 완전한 시스템 연계 전 단계)</li>
+                <li>위 데이터를 근거로 Agent의 business logic(판단 로직) 구현 — 데이터 해석이 모호한 경우 현업 PL(비개발자, 업무 도메인 담당)에게 "이 상황에서 이 데이터라면 이 판단이 맞는지" 확인하며 로직을 검증</li>
+              </ol>
+            </div>
+            <div class="mb-block">
+              <h4>Engineering Decision — Deterministic Routing</h4>
+              <div class="decision">
+                <ul class="plain">
+                  <li>일부 Agent 실행 구간에서 Qwen이 tool 호출·실행 순서를 직접 결정할 경우, 동일 입력에도 실행 경로가 달라지는 문제를 확인</li>
+                  <li>해당 구간에서는 session/event 결과를 코드에서 파싱해 state를 갱신한 뒤 다음 실행을 결정하는 routing 방식으로 전환</li>
+                  <li>적용 범위는 제가 담당한 정책 Agent 실행 구간에 한정</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mb-block">
+              <h4>Current Status <span style="text-transform:none;">(2026.08)</span></h4>
+              <div class="status-grid">
+                <div class="status-col done">
+                  <div class="lbl"><span class="dot ok"></span>Completed</div>
+                  <ul class="plain">
+                    <li>담당 업무·화면·문서 기반 Agent 개입 지점 정의</li>
+                    <li>mock dataset 기반 business logic 개발</li>
+                    <li>session/event 기반 explicit state 구조 검증</li>
+                    <li>담당 구간 Deterministic Routing 적용</li>
+                  </ul>
+                </div>
+                <div class="status-col wip">
+                  <div class="lbl"><span class="dot progress"></span>In Progress</div>
+                  <ul class="plain">
+                    <li>실제 시스템 연계 확대에 따른 데이터 소스 전환(mock → 실 연계)</li>
+                    <li>비동기·연속 실행 구현</li>
+                    <li>상용 적용을 위한 검증·고도화</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-head">
+          <span class="pill pill-internal">사내 표준화</span>
+          <span class="proj-date">2026.03 ~ 2026.05 · 팀 프로젝트</span>
+        </div>
+        <hr class="proj-rule">
+        <h3 class="proj-hook">사내 ADK/A2A 에이전트 개발 표준화 — 팀이 재사용할 수 있는 ADK 데이터 에이전트 플랫폼과 A2A 런타임 표준화</h3>
+        <ul class="proj-bullets">
+          <li>Provider 분기·SSL 설정 관련 런타임 이슈 수정</li>
+          <li>MCP 연결 범위 <code>tool_filter</code> 적용</li>
+          <li>A2A runtime 구조 일부 구현·검증</li>
+        </ul>
+        <div class="tech-box">Python, Google ADK, A2A Protocol, MCP, FastAPI, loguru</div>
+        <details class="more">
+          <summary><span class="more-icon">▸</span> <span class="lbl-closed">자세히 보기</span><span class="lbl-open">접기</span></summary>
+          <div class="more-body">
+            <div class="mb-block">
+              <h4>Overview</h4>
+              <p>ADK 데이터 에이전트 플랫폼과 A2A 런타임(<code>agent_a2a</code>)을 팀이 재사용할 수 있는 internal agent platform으로 구조화한 작업입니다. 플랫폼 전체는 팀 단위로 진행했습니다.</p>
+            </div>
+            <div class="mb-block">
+              <h4>Runtime</h4>
+              <p>ADK Agent를 A2A 기반 FastAPI runtime으로 노출할 수 있도록 agent 등록, request handling, task/session backend, model provider abstraction을 공통 구조(<code>agent_a2a</code>)로 정리했습니다.</p>
+            </div>
+            <div class="mb-block">
+              <h4>Standardization</h4>
+              <p>config 기반 로깅·모델 생성, 인메모리/DB 백엔드 전환, 폐쇄망 오프라인 배포를 포함한 운영 재사용성을 갖췄습니다. 에이전트 성숙도(LV1~LV5)와 Skill 라이프사이클, trigger rate 평가 방법론을 담은 개발 가이드도 함께 정리했습니다.</p>
+            </div>
+            <div class="contribution">
+              <span class="k">My Contribution</span>
+              <ul class="plain" style="margin:0;">
+                <li>Provider 분기 및 SSL 설정 관련 런타임 이슈 수정</li>
+                <li>MCP 연결 범위 <code>tool_filter</code> 적용</li>
+                <li>A2A runtime 구조 일부 구현·검증</li>
+                <li>개발 가이드 작성 참여</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-head">
+          <span class="pill pill-poc">POC · 2건</span>
+          <span class="proj-date">2026 상반기 · 팀 프로젝트</span>
+        </div>
+        <hr class="proj-rule">
+        <h3 class="proj-hook">상용 프로젝트와 별개로 진행한 단기 기술 검증 POC 2건</h3>
+        <ul class="proj-bullets">
+          <li>보험사 광고 사전심의 + Text-to-SQL Agent POC</li>
+          <li>대형 건설사 건강분석 및 운동 추천 Agent POC</li>
+        </ul>
+        <details class="more">
+          <summary><span class="more-icon">▸</span> <span class="lbl-closed">2건 보기</span><span class="lbl-open">접기</span></summary>
+          <div class="more-body poc-list">
+
+            <div class="poc-sub">
+              <div class="proj-head">
+                <span class="pill pill-poc">POC</span>
+                <span class="proj-date">2026.05 ~ 2026.06 · 팀 프로젝트</span>
+              </div>
+              <h4 class="poc-sub-title">보험사 AI 에이전트 POC — 광고 사전심의 · 데이터 분석</h4>
+              <ul class="proj-bullets">
+                <li>RAGFlow 규정 검색 기반 사전심의 + Text-to-SQL 병행 개발</li>
+                <li>LLM이 JSON 대신 자연어를 출력하는 문제 → after callback 훅으로 해결</li>
+                <li>vLLM 토큰 제약으로 인한 컨텍스트 중복 적재 → slim/full 응답 분리로 해결</li>
+              </ul>
+              <div class="tech-box">Python, Google ADK, Streamlit, RAGFlow, MySQL, MinIO, SSE, vLLM, pandas</div>
+              <details class="more">
+                <summary><span class="more-icon">▸</span> <span class="lbl-closed">자세히 보기</span><span class="lbl-open">접기</span></summary>
+                <div class="more-body">
+                  <div class="mb-block">
+                    <h4>Overview</h4>
+                    <p>ADK Main/Sub Agent + RAGFlow 규정 검색으로 광고 사전심의를 수행하고, Streamlit 기반 POC Web(SSE 스트리밍·세션 관리·인증)으로 서비스. 병행하여 자연어 질의 → SQL 생성 → 검증 → 실행까지 이어지는 Text-to-SQL 에이전트를 개발했습니다.</p>
+                  </div>
+                  <div class="mb-block">
+                    <h4>트러블슈팅 — 출력 형식 불안정 (Text-to-SQL)</h4>
+                    <div class="trace">
+                      <div class="trace-step problem"><div class="lbl">문제</div><p>LLM이 JSON 형식으로 응답해야 하는 구간에서 자꾸 자연어로 출력하는 문제 발생</p></div>
+                      <div class="trace-step attempt"><div class="lbl">1차 시도</div><p>프롬프팅으로 해결을 시도했으나 안정적으로 해결되지 않음</p></div>
+                      <div class="trace-step resolve"><div class="lbl">해결</div><p>after callback 훅(ADK)으로 모델 출력을 후처리·보정하도록 변경</p></div>
+                    </div>
+                  </div>
+                  <div class="mb-block">
+                    <h4>트러블슈팅 — 컨텍스트/토큰 관리 (Text-to-SQL)</h4>
+                    <div class="trace">
+                      <div class="trace-step problem"><div class="lbl">문제</div><p>vLLM <code>max_model_len=26000</code> / <code>max_output_tokens=4096</code> 제약 아래 SQL 실행 결과가 툴 응답·session state·모델 출력 echo 세 군데에 중복 적재</p></div>
+                      <div class="trace-step resolve"><div class="lbl">해결</div><p>응답을 slim/full로 분리하고 사용 후 state를 정리하는 방식으로 컨텍스트 축소. 코드 리뷰로 SQL 사전 검증 부재, 결과 데이터 영구 저장 누락 등의 갭도 함께 식별</p></div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <hr class="proj-rule">
+
+            <div class="poc-sub">
+              <div class="proj-head">
+                <span class="pill pill-poc">POC</span>
+                <span class="proj-date">팀 프로젝트</span>
+              </div>
+              <h4 class="poc-sub-title">대형 건설사 건강분석 및 운동 추천 에이전트</h4>
+              <ul class="proj-bullets">
+                <li>체중·체지방률·BMI 등 수치 기반 위험 판정 로직 구현</li>
+                <li>LLM의 수치 오식별 문제 → CoT 시도 후 Python 코드 비교로 최종 해결</li>
+                <li><code>get_summary_input</code> FunctionTool로 운동/수면 결과를 하나의 요약 입력으로 정규화</li>
+              </ul>
+              <div class="tech-box">Python, Google ADK, FunctionTool, RAGFlow</div>
+              <details class="more">
+                <summary><span class="more-icon">▸</span> <span class="lbl-closed">자세히 보기</span><span class="lbl-open">접기</span></summary>
+                <div class="more-body">
+                  <div class="mb-block">
+                    <h4>Workflow</h4>
+                    <p>체중·골격근량·체지방률·BMI, 걸음 수·활동/운동 시간, 수면 시간·점수·취침/기상 시각을 입력받아 분석 → 운동 추천 → 수면 추천 → 요약 통합 순으로 처리합니다. 운동·수면 결과와 사용자 프로필을 하나의 구조로 정규화하는 <code>get_summary_input</code> FunctionTool(Google ADK)이 최종 요약 입력을 구성합니다.</p>
+                  </div>
+                  <div class="mb-block">
+                    <h4>트러블슈팅 — 수치 기반 판단 정확도</h4>
+                    <div class="trace">
+                      <div class="trace-step problem"><div class="lbl">문제</div><p>LLM이 수치 데이터를 근거로 위험 여부를 판단하도록 했으나, 수치를 잘못 식별하는 문제가 발생</p></div>
+                      <div class="trace-step attempt"><div class="lbl">1차 시도</div><p>Chain-of-Thought(CoT) 프롬프팅으로 개선을 시도했으나 문제가 계속 발생</p></div>
+                      <div class="trace-step resolve"><div class="lbl">해결</div><p>수치 비교 로직을 Python 코드로 분리 — 코드가 수치를 직접 비교해 "위험" 등 판정 결과를 결정론적으로 반환하도록 변경</p></div>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="earlier">
+    <h2 class="section-title"><span class="n">02</span>Earlier Work</h2>
+    <p class="entry-sub" style="margin-top:-10px;">인천대학교 임베디드시스템공학 재학 중 진행한 프로젝트와 연구</p>
+    <div class="card">
+    <ul class="earlier">
+      <li><b>TROY OJ</b> — LLM 기반 C 언어 학습 지원 Online Judge (Capstone Design). LLM 기반 코드 피드백, 단계별 학습 모드, 태그 기반 문제 추천을 구현. Frontend/Backend(PHP, Python, MySQL) 담당. <a href="https://github.com/comjke33/Capstone_Design_Troy" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><b>Sleep Posture Correction Device</b> — 수면 자세 교정 웨어러블 디바이스 (Capstone Design). RNN 기반 수면 단계 판별(Light/Deep/REM), 가속도 센서 기반 자세 인식·진동 교정을 구현. PPG 전처리 및 RNN 모델, 센서 알고리즘 담당. <a href="https://github.com/twl0812/inu-capstone-project-zzzk.github.io" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><b>인천대학교 ICON 랩 학부연구생</b> (2023.01 ~ 2024.08) — 센서 네트워크 기반 보안 감시 시스템 연구에 참여해 제1저자 논문 4편을 게재</li>
+    </ul>
+    <div class="stack-tags" style="margin-top:16px;">
+      <span class="tag">C</span><span class="tag">C++</span><span class="tag">Ubuntu(Linux)</span><span class="tag">MySQL</span><span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">NumPy</span><span class="tag">Git</span>
+    </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <h2 class="section-title"><span class="n">03</span>Publications</h2>
+    <div class="card">
+    <ul class="pubs">
+      <li>
+        <span class="cite">Designing deep learning-enabled surveillance model with classified security levels for smart area networks</span>
+        <span class="venue">Elsevier · 2025</span>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S1570870525000125" target="_blank" rel="noopener">Link ↗</a>
+      </li>
+      <li>
+        <span class="cite">Reinforcing Deep Learning-Enabled Surveillance with Smart Sensors</span>
+        <span class="venue">Sensors · 2025</span>
+        <a href="https://www.mdpi.com/1424-8220/25/11/3345" target="_blank" rel="noopener">Link ↗</a>
+      </li>
+      <li>
+        <span class="cite">Enhancing Smart Building Surveillance Systems in Thin Walls: An Efficient Barrier Design</span>
+        <span class="venue">Sensors · 2024</span>
+        <a href="https://www.mdpi.com/1424-8220/24/2/595" target="_blank" rel="noopener">Link ↗</a>
+      </li>
+      <li>
+        <span class="cite">Maximum Activation 3D Cube Transition System for Virtual Emotion Surveillance</span>
+        <span class="venue">IEEE Comm. Letters · 2023</span>
+        <a href="https://doi.org/10.1109/LCOMM.2023.3272671" target="_blank" rel="noopener">DOI ↗</a>
+      </li>
+    </ul>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="section-title"><span class="n">04</span>Education</h2>
+    <div class="card">
+    <h3 class="entry-title" style="font-size:1.05rem;">Incheon National University — Embedded Systems Engineering</h3>
+    <p class="entry-sub">Relevant Courses: Data Structures · Operating Systems · Database · AI · Computer Vision</p>
+    </div>
+  </section>
+
+  <footer class="disclosure">
+    <span class="k">Disclosure</span>
+    고객사명, 내부 시스템 상세, 실제 규정·운영 데이터 및 소스코드는 제외했습니다. 진행 중인 프로젝트는 완료 성과 대신 실제 담당 범위와 해결한 엔지니어링 문제를 기준으로 기술했으며, 팀 프로젝트의 경우 개인 기여 범위를 구분해 작성했습니다.
+  </footer>
+
+</div>
+</body>
+</html>
