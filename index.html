@@ -7,78 +7,82 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
-    --bg:#E7F2FB;
+    --bg:#F7F9FB;
     --surface:#FFFFFF;
-    --surface-tint:#F1F8FE;
-    --ink:#12151A;
-    --ink-muted:#545C66;
+    --surface-tint:#F2F4F6;
+    --ink:#1B1D20;
+    --ink-muted:#5B6169;
     --ink-faint:#868D96;
-    --accent:#2E8FD1;
-    --accent-strong:#1C6FA8;
-    --signal:#B5651D;
-    --ok:#3F6B4A;
-    --line:#C7DCEC;
-    --line-strong:#A9C7DE;
+    --accent:#3B72B0;
+    --accent-strong:#2E5A8E;
+    --signal:var(--ink-muted);
+    --ok:var(--ink-muted);
+    --line:#E2E6EA;
+    --line-strong:#CDD3D9;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0D1620;
-      --surface:#152230;
-      --surface-tint:#122A38;
-      --ink:#E7EEF4;
-      --ink-muted:#9FB0BF;
-      --ink-faint:#6E7F8C;
-      --accent:#6FC2F2;
-      --accent-strong:#8FD3F7;
-      --signal:#E0973F;
-      --ok:#6FA37B;
-      --line:#22384A;
-      --line-strong:#2E4A5F;
+      --bg:#111315;
+      --surface:#191B1E;
+      --surface-tint:#1E2124;
+      --ink:#EDEEEF;
+      --ink-muted:#A6ABB1;
+      --ink-faint:#75797F;
+      --accent:#7EA9DD;
+      --accent-strong:#9BBEE6;
+      --signal:var(--ink-muted);
+      --ok:var(--ink-muted);
+      --line:#2A2D30;
+      --line-strong:#383C40;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0D1620;
-    --surface:#152230;
-    --surface-tint:#122A38;
-    --ink:#E7EEF4;
-    --ink-muted:#9FB0BF;
-    --ink-faint:#6E7F8C;
-    --accent:#6FC2F2;
-    --accent-strong:#8FD3F7;
-    --signal:#E0973F;
-    --ok:#6FA37B;
-    --line:#22384A;
-    --line-strong:#2E4A5F;
+    --bg:#111315;
+    --surface:#191B1E;
+    --surface-tint:#1E2124;
+    --ink:#EDEEEF;
+    --ink-muted:#A6ABB1;
+    --ink-faint:#75797F;
+    --accent:#7EA9DD;
+    --accent-strong:#9BBEE6;
+    --signal:var(--ink-muted);
+    --ok:var(--ink-muted);
+    --line:#2A2D30;
+    --line-strong:#383C40;
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+  html{scroll-behavior:smooth; scroll-snap-type:y proximity;}
+  @media (max-width:680px){
+    html{scroll-snap-type:none;}
+  }
   body{
     margin:0;
     background:var(--bg);
     color:var(--ink);
     font-family:"IBM Plex Sans KR","IBM Plex Sans",-apple-system,sans-serif;
-    font-size:17px;
-    line-height:1.75;
+    font-size:16px;
+    line-height:1.65;
     padding-inline:20px;
     -webkit-font-smoothing:antialiased;
   }
   a{color:var(--accent-strong);text-underline-offset:2px;}
   a:hover{color:var(--accent);}
 
-  .wrap{max-width:800px;margin:0 auto;}
+  .wrap{max-width:880px;margin:0 auto;}
 
   /* ---- top index nav ---- */
   nav.index{
     position:sticky;top:0;z-index:5;
-    background:color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
+    background:var(--bg);
+    border-bottom:1px solid transparent;
     margin-inline:-20px;
     padding-inline:20px;
+    transition:border-color .15s ease;
   }
+  nav.index.scrolled{border-bottom-color:var(--line);}
   nav.index .row{
-    max-width:800px;margin:0 auto;
+    max-width:880px;margin:0 auto;
     display:flex;gap:18px;
     overflow-x:auto;
     padding-block:12px;
@@ -94,10 +98,19 @@
 
   /* ---- header / identity ---- */
   header.id{
-    padding-block:56px 36px;
-    scroll-snap-align:start;scroll-margin-top:56px;
-    min-height:100vh;box-sizing:border-box;
+    padding-block:48px 40px;
+    min-height:92vh;
+    box-sizing:border-box;
     display:flex;flex-direction:column;justify-content:center;
+    scroll-snap-align:start;
+    scroll-margin-top:50px;
+  }
+  @media (max-width:680px){
+    header.id{min-height:auto;justify-content:flex-start;}
+  }
+  .hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;}
+  @media (max-width:680px){
+    .hero-grid{grid-template-columns:1fr;gap:26px;}
   }
   header.id .eyebrow{
     font-family:"IBM Plex Mono",monospace;
@@ -107,62 +120,66 @@
   header.id h1{
     font-weight:700;
     letter-spacing:-.01em;
-    font-size:clamp(2rem,5vw,2.6rem);
-    margin:0 0 18px;
+    font-size:clamp(1.9rem,5vw,2.5rem);
+    margin:0 0 16px;
     text-wrap:balance;
   }
   blockquote.thesis{
-    margin:0 0 20px;
+    margin:0;
     padding-left:16px;
-    border-left:3px solid var(--accent);
-    font-size:1.18rem;
-    font-weight:600;
-    line-height:1.55;
-    color:var(--ink);
-    max-width:58ch;
+    border-left:2px solid var(--line-strong);
+    font-size:1.05rem;
+    font-weight:500;
+    line-height:1.6;
+    color:var(--ink-muted);
+    max-width:52ch;
   }
-  ul.about{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:7px;}
-  ul.about li{font-size:.96rem;color:var(--ink-muted);}
+  ul.about{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;}
+  ul.about li{font-size:.94rem;color:var(--ink-muted);}
   ul.about li b{color:var(--ink);font-weight:600;}
   ul.about li a{color:var(--accent-strong);}
 
+  .meta-panel{display:flex;flex-direction:column;gap:16px;}
   .meta-row{
-    display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;
     font-family:"IBM Plex Mono",monospace;
     font-size:12.5px;color:var(--ink-muted);
-    padding-top:12px;
   }
-  .meta-row:first-of-type{padding-top:20px;border-top:1px solid var(--line);}
   .meta-row .meta-label{
     color:var(--ink-faint);letter-spacing:.06em;text-transform:uppercase;
     font-size:11px;min-width:78px;
   }
   .meta-row a{color:var(--ink-muted);}
   .meta-row a:hover{color:var(--accent-strong);}
+  @media (max-width:680px){
+    .meta-panel{border-top:1px solid var(--line); padding-top:20px;}
+  }
 
   section{
     padding-block:32px;border-top:1px solid var(--line);
+    scroll-snap-align:start;
+    scroll-margin-top:50px;
   }
   section:first-of-type{border-top:none;}
 
   .card{
     background:var(--surface);
     border:1px solid var(--line);
-    border-radius:14px;
-    padding:32px 34px;
-    box-shadow:0 1px 2px rgba(15,45,70,.06), 0 18px 34px -22px rgba(15,60,100,.30);
+    border-radius:12px;
+    padding:28px 30px;
+    box-shadow:0 1px 2px rgba(20,30,40,.04);
     box-sizing:border-box;
   }
-  .card + .card{margin-top:26px;}
+  .card + .card{margin-top:22px;}
   @media (max-width:600px){
-    .card{padding:22px 18px;border-radius:12px;}
+    .card{padding:20px 18px;border-radius:10px;}
   }
 
   h2.section-title{
     font-family:"IBM Plex Mono",monospace;
-    font-size:15px;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--accent-strong);
-    margin:0 0 28px;
+    font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 24px;
   }
   h2.section-title span.n{color:var(--ink-faint);margin-right:8px;}
 
@@ -196,22 +213,31 @@
   .proj-card{
     background:var(--surface);
     border:1px solid var(--line);
-    border-radius:16px;
-    padding:26px 26px 22px;
-    box-shadow:0 1px 2px rgba(15,45,70,.05), 0 14px 28px -18px rgba(15,60,100,.28);
+    border-radius:12px;
+    padding:24px 26px 20px;
+    box-shadow:0 1px 2px rgba(20,30,40,.04);
     display:flex;flex-direction:column;
   }
+  /* Main Work reads as the strongest card: extra padding + a quiet accent edge */
+  .proj-card.tier-main{
+    border-left:3px solid var(--accent);
+    padding:28px 30px 24px;
+  }
+  .proj-card.tier-main .proj-hook{font-size:1.15rem;}
+  .proj-card.tier-poc{padding:20px 22px 18px;}
   .proj-head{
     display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
   }
   .pill{
-    font-size:.82rem;font-weight:600;
-    padding:6px 14px;border-radius:20px;color:var(--bg);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:.72rem;font-weight:500;letter-spacing:.02em;
+    padding:3px 9px;border-radius:3px;
+    border:1px solid var(--line-strong);color:var(--ink-muted);
   }
-  .pill-main{background:var(--accent-strong);}
-  .pill-internal{background:var(--ink-muted);}
-  .pill-poc{background:var(--signal);}
-  .proj-date{font-size:.82rem;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;}
+  .pill-main{border-color:var(--accent);color:var(--accent-strong);}
+  .pill-internal{color:var(--ink-muted);}
+  .pill-poc{color:var(--ink-muted);}
+  .proj-date{font-size:.78rem;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;}
   .proj-rule{border:none;border-top:1px solid var(--line);margin:16px 0;}
   .proj-hook{
     font-size:1.05rem;font-weight:700;line-height:1.5;
@@ -222,32 +248,30 @@
     position:relative;padding-left:16px;margin-bottom:6px;
     font-size:.93rem;color:var(--ink-muted);
   }
-  .proj-bullets li::before{content:"•";position:absolute;left:0;color:var(--accent-strong);}
+  .proj-bullets li::before{content:"–";position:absolute;left:0;color:var(--ink-faint);}
   .tech-box{
-    background:var(--bg);border:1px solid var(--line);border-radius:8px;
-    padding:10px 14px;margin-bottom:18px;
-    font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--ink-muted);
+    border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);
+    padding:8px 0;margin-bottom:16px;
+    font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--ink-faint);
     line-height:1.6;
   }
 
   details.more{margin-top:auto;}
   details.more summary{
     cursor:pointer;list-style:none;
-    display:inline-flex;align-items:center;gap:8px;
-    font-size:.88rem;font-weight:600;color:var(--accent-strong);
-    border:1px solid var(--line-strong);border-radius:20px;
-    padding:8px 16px;
-    transition:background .15s ease;
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:.82rem;font-weight:500;color:var(--ink-muted);
+    padding:2px 0;
   }
   details.more summary::-webkit-details-marker{display:none;}
-  details.more summary:hover{background:var(--bg);}
-  details.more > summary .more-icon{font-size:.75em;transition:transform .15s ease;}
+  details.more summary:hover{color:var(--accent-strong);}
+  details.more > summary .more-icon{font-size:.75em;color:var(--ink-faint);transition:transform .15s ease;}
   details.more[open] > summary .more-icon{transform:rotate(90deg);}
-  details.more[open] > summary{margin-bottom:18px;background:var(--bg);}
+  details.more[open] > summary{margin-bottom:16px;color:var(--accent-strong);}
   details.more > summary .lbl-open{display:none;}
   details.more[open] > summary .lbl-closed{display:none;}
   details.more[open] > summary .lbl-open{display:inline;}
-  .more-body{border-top:1px solid var(--line);padding-top:6px;}
+  .more-body{border-top:1px solid var(--line);padding-top:4px;}
   .mb-block{margin-block:20px;}
   .mb-block:first-child{margin-top:0;}
   .mb-block h4{
@@ -334,7 +358,6 @@
   .dot.progress{background:var(--signal);}
   .status-col.done .lbl{color:var(--ok);}
   .status-col.wip .lbl{color:var(--signal);}
-  .status-col ul.plain{}
 
   .contribution{
     border:1px dashed var(--line-strong);border-radius:4px;padding:14px 16px;margin-block:18px;
@@ -402,25 +425,31 @@
 <div class="wrap">
 
   <header class="id" id="about">
-    <div class="eyebrow">Agent Developer</div>
-    <h1>이태우</h1>
-    <blockquote class="thesis">
-      금융·보험 AX 프로젝트에서 LLM Agent의 실행 흐름, 상태 관리, 데이터 연계 문제를 직접 다루며 Agent 개발 경험을 쌓고 있습니다.
-    </blockquote>
-    <ul class="about">
-      <li>Google ADK, MCP/Tool integration, session-state 관리</li>
-      <li>금융권 폐쇄망 환경에서 Qwen/vLLM 기반 Agent 개발</li>
-      <li>학부 연구생 시절 제1저자 논문 4편 게재 — <a href="#publications">Publications 참고</a></li>
-    </ul>
-    <div class="meta-row">
-      <span class="meta-label">Experience</span>
-      <span>AITSTORY AX기술연구소 · 2026.03 ~ 현재</span>
-    </div>
-    <div class="meta-row">
-      <span class="meta-label">Contact</span>
-      <a href="tel:01066090643">010-6609-0643</a>
-      <a href="mailto:twl0812@naver.com">twl0812@naver.com</a>
-      <a href="https://github.com/twl0812" target="_blank" rel="noopener">github.com/twl0812</a>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Agent Developer</div>
+        <h1>이태우</h1>
+        <blockquote class="thesis">
+          금융·보험 AX 프로젝트에서 LLM Agent의 실행 흐름, 상태 관리, 데이터 연계 문제를 직접 다루며 Agent 개발 경험을 쌓고 있습니다.
+        </blockquote>
+      </div>
+      <div class="meta-panel">
+        <ul class="about" style="margin-top:0;">
+          <li>Google ADK, MCP/Tool integration, session-state 관리</li>
+          <li>금융권 폐쇄망 환경에서 Qwen/vLLM 기반 Agent 개발</li>
+          <li>학부 연구생 시절 제1저자 논문 4편 게재 — <a href="#publications">Publications 참고</a></li>
+        </ul>
+        <div class="meta-row">
+          <span class="meta-label">Experience</span>
+          <span>AITSTORY AX기술연구소 · 2026.03 ~ 현재</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Contact</span>
+          <a href="tel:01066090643">010-6609-0643</a>
+          <a href="mailto:twl0812@naver.com">twl0812@naver.com</a>
+          <a href="https://github.com/twl0812" target="_blank" rel="noopener">github.com/twl0812</a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -429,7 +458,7 @@
 
     <div class="work-grid">
 
-      <div class="proj-card">
+      <div class="proj-card tier-main">
         <div class="proj-head">
           <span class="pill pill-main">실무 프로젝트</span>
           <span class="proj-date">2026.06 ~ 진행 중 · 팀 프로젝트</span>
@@ -546,7 +575,7 @@
         </details>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card tier-poc">
         <div class="proj-head">
           <span class="pill pill-poc">POC · 2건</span>
           <span class="proj-date">2026 상반기 · 팀 프로젝트</span>
@@ -698,6 +727,13 @@
 </div>
 
 <script>
+  (function(){
+    var nav = document.querySelector('nav.index');
+    window.addEventListener('scroll', function(){
+      nav.classList.toggle('scrolled', window.scrollY > 4);
+    }, { passive:true });
+  })();
+
   // Print-only: expand every collapsed <details> so PDF export includes all content,
   // then restore whatever the viewer had open before printing.
   (function(){
